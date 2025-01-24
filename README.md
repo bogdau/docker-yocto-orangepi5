@@ -1,6 +1,6 @@
 # docker-yocto-orangepi5
 
-### Machine name = rockchip-rk3588-evb
+### Machine name = rock-pi-4b
 
 ### Use this scripts to add layers 
 ```sh

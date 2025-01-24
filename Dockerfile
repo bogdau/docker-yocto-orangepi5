@@ -11,8 +11,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
 RUN apt-get update && apt-get install -y \
     gawk wget git-core diffstat unzip texinfo gcc-multilib \
     build-essential chrpath socat cpio python3 python3-pip python3-pexpect \
-    xz-utils debianutils iputils-ping libsdl1.2-dev xterm curl file lz4 zstd\
-    nano vim \
+    xz-utils debianutils iputils-ping libsdl1.2-dev xterm curl file lz4 zstd \
+    nano vim build-essential gcc g++ zlib1g-dev sudo \
     locales && \
     locale-gen en_US.UTF-8 && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -29,19 +29,20 @@ RUN groupadd --gid $USER_GID $USERNAME && \
 USER $USERNAME
 WORKDIR /home/$USERNAME
 
-# Clone the Poky repository for Yocto (scarthgap branch)
+# Clone the Poky repository for Yocto (kirkstone branch)
 RUN git clone -b kirkstone git://git.yoctoproject.org/poky
 
-# Clone the meta-openembedded layer (scarthgap branch)
+# Clone the meta-openembedded layer (kirkstone branch)
 RUN git clone -b kirkstone git://git.openembedded.org/meta-openembedded
 
-# Clone the meta-rockchip layer (kirkstone branch)
-RUN git clone -b kirkstone https://github.com/JeffyCN/meta-rockchip.git
+# Clone the official meta-rockchip layer (kirkstone branch)
+RUN git clone -b kirkstone https://git.yoctoproject.org/meta-rockchip
+
+# Clone the official meta-arm layer (kirkstone branch)
+RUN git clone -b kirkstone https://git.yoctoproject.org/meta-arm
 
 # Set up the Yocto environment
 WORKDIR /home/yocto
-# RUN . oe-init-build-env
-
 
 # Entrypoint for Yocto build environment
 CMD ["/bin/bash"]
